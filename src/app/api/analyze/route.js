@@ -1,10 +1,10 @@
-const multer = require("multer");
+PORT = "tcp://localhost:5555"
+
+const multer = require("multer"); //for file upload
 const zmq = require("zeromq");
-const path = require("path");
 
 const socket = new zmq.Request();
-socket.connect("tcp://localhost:5555"); 
-
+socket.connect(PORT); 
 
 // youtube link
 export async function POST(req) 
@@ -24,9 +24,20 @@ export async function POST(req)
     try 
     {
       await socket.send(pkg);
-      const [response] = await socket.receive();
-      const { mp3Files } = JSON.parse(response);
-      return new Response(JSON.stringify({ mp3Files }), { status: 200 });
+
+      const [ response ] = await socket.receive();
+      const responseStr = response.toString();
+      console.log(responseStr)
+      const { status, audioFiles } = JSON.parse(responseStr);
+
+      if(status == "canceled")
+      {
+        console.log("Communication socket received cancelation: aborting...");
+        return new Response(JSON.stringify({ audioFiles }), { status: 201 });
+      }else{
+        console.log("received ", audioFiles, " and is now passing it down...");
+        return new Response(JSON.stringify({ audioFiles }), { status: 200 });
+      }
 
     }catch (err) {
       console.error("Error:", err);
@@ -35,5 +46,4 @@ export async function POST(req)
   }else{
     return new Response(JSON.stringify({ error: "no valid file" }), { status: 400 });
   }
-
 };

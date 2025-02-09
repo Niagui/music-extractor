@@ -1,13 +1,50 @@
-const Results = ({ result }: { result: any }) => {
-    return (
-      <div className="max-w-lg w-full bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-bold mb-4">{result.message}</h2>
-        <div className="flex justify-end">
-          <button className="bg-green-500 text-white px-4 py-2 rounded-lg">Download</button>
-        </div>
-      </div>
-    );
-  };
+const Results = ({ audioFiles }: {
+    audioFiles: string[], 
+  }) => {
+
+
+  console.log("Audio files received:", audioFiles);
+  const isEmpty = audioFiles.length === 0;
+  const FOLDER = 'audioFiles/'
+  const vocalsFile = audioFiles.find(file => file === 'vocals.mp3')
+  const accompanimentFile = audioFiles.find(file => file === 'no_vocals.mp3')
+
+  console.log(vocalsFile, accompanimentFile);
   
-  export default Results;
+  return (
+    <div>
+        {!isEmpty ? (
+
+            <div>
+                <h2 className="">Here's an analysis of your song:</h2>
+                <br></br>
+
+                {/* vocal */}
+                {vocalsFile && (
+                    <div>
+                        <p>Vocals</p>
+                        <audio controls>
+                            <source src={FOLDER + vocalsFile} type="audio/mp3" />
+                        </audio>
+                    </div>
+                )}
+
+                {/* extract Accompaniment */}
+                {accompanimentFile && (
+                    <div>
+                        <p>Accompaniment</p>
+                        <audio controls>
+                            <source src={FOLDER + accompanimentFile} type="audio/mp3" />
+                        </audio>
+                    </div>
+                )}
+                
+            </div>
+            ) : null
+        };
+    </div>
+  );
+};
+
+export default Results;
   

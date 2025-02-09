@@ -1,5 +1,14 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Quick notes
+
+To get started, go to *music-extractor/src/app/api/router.py* and run it to get the backend running
+Make sure you are at one directory above the main */music-extractor* folder since I messed up when creating my virtual environment (will be fixed later)
+
+Then go inside the */music-extractor* folder and do
+
+```npm run dev```
+
 ## Getting Started
 
 First, run the development server:
