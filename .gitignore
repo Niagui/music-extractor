@@ -23,6 +23,8 @@
 # misc
 .DS_Store
 *.pem
+*.mp3
+todo
 
 # debug
 npm-debug.log*
@@ -42,3 +44,7 @@ next-env.d.ts
 
 # cache
 __pycache__
+
+
+
+
