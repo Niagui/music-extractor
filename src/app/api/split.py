@@ -7,12 +7,24 @@
 
 import demucs
 import demucs.separate
+import subprocess
 from os import path
+
+demucs_process = None
 
 FILEDIR = 'music-extractor/src/app/files/'
 
 def split_vocal(commands: list):
 
-    separator = demucs.separate
+    global demucs_process
     filename = path.join(FILEDIR, commands[0])
-    separator.main(["--mp3", "--two-stems", "vocals", "-o", FILEDIR, "-n", "mdx_extra", filename])
+    args = [
+        "demucs",
+        "--mp3",
+        "--two-stems", "vocals",
+        "-o", FILEDIR,
+        "-n", "mdx_extra",
+        filename
+    ]
+    demucs_process = subprocess.Popen(args)
+    return demucs_process
